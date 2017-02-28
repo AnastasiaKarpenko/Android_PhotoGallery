@@ -1,8 +1,9 @@
-package ws.tilda.anastasia.photogallery;
+package ws.tilda.anastasia.photogallery.view;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ws.tilda.anastasia.photogallery.R;
 
 public class PhotoGalleryActivity extends SingleFragmentActivity {
 
