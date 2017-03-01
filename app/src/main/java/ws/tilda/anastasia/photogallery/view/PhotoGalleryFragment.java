@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.io.IOException;
 
 import ws.tilda.anastasia.photogallery.R;
-import ws.tilda.anastasia.photogallery.model.FlikrFetchr;
+import ws.tilda.anastasia.photogallery.controller.FlikrFetchr;
 
 
 public class PhotoGalleryFragment extends Fragment {

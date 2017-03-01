@@ -1,4 +1,4 @@
-package ws.tilda.anastasia.photogallery.model;
+package ws.tilda.anastasia.photogallery.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
