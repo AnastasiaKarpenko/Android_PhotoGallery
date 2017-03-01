@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import ws.tilda.anastasia.photogallery.R;
 import ws.tilda.anastasia.photogallery.controller.FlikrFetchr;
+import ws.tilda.anastasia.photogallery.model.GalleryItem;
 
 
 public class PhotoGalleryFragment extends Fragment {
@@ -41,6 +43,20 @@ public class PhotoGalleryFragment extends Fragment {
         mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
         return v;
+    }
+
+    private class PhotoHolder extends RecyclerView.ViewHolder {
+        private TextView mTitleTextView;
+
+        public PhotoHolder(View itemView) {
+            super(itemView);
+
+            mTitleTextView = (TextView) itemView;
+        }
+
+        public void bindGalleryItem(GalleryItem item) {
+            mTitleTextView.setText(item.toString());
+        }
     }
 
     private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
