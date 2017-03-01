@@ -15,7 +15,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import ws.tilda.anastasia.photogallery.model.BoxOfficeItemsResponse;
 import ws.tilda.anastasia.photogallery.model.GalleryItem;
+
+import static ws.tilda.anastasia.photogallery.model.BoxOfficeItemsResponse.parseJSON;
 
 public class FlikrFetchr {
     private static final String TAG = "FlikrFetchr";
@@ -49,8 +52,8 @@ public class FlikrFetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public List<GalleryItem> fetchItems() {
-        List<GalleryItem> items = new ArrayList<>();
+    public BoxOfficeItemsResponse fetchItems() {
+        BoxOfficeItemsResponse response = new BoxOfficeItemsResponse();
 
         try {
             String url = Uri.parse("https://api.flickr.com/services/rest/")
@@ -64,15 +67,17 @@ public class FlikrFetchr {
                     .toString();
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
-            JSONObject jsonBody = new JSONObject(jsonString);
-            parseItems(items, jsonBody);
+//            JSONObject jsonBody = new JSONObject(jsonString);
+//            parseItems(items, jsonBody);
+            response.parseJSON(jsonString);
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
-        } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je);
         }
+//        catch (JSONException je) {
+//            Log.e(TAG, "Failed to parse JSON", je);
+//        }
 
-        return items;
+        return response;
     }
 
     private void parseItems(List<GalleryItem> items, JSONObject jsonBody)
@@ -95,4 +100,5 @@ public class FlikrFetchr {
             items.add(item);
         }
     }
+
 }

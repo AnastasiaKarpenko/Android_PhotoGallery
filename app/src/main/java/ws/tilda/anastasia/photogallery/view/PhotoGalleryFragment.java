@@ -16,7 +16,10 @@ import java.util.List;
 
 import ws.tilda.anastasia.photogallery.R;
 import ws.tilda.anastasia.photogallery.controller.FlikrFetchr;
+import ws.tilda.anastasia.photogallery.model.BoxOfficeItemsResponse;
 import ws.tilda.anastasia.photogallery.model.GalleryItem;
+
+import static android.media.CamcorderProfile.get;
 
 
 public class PhotoGalleryFragment extends Fragment {
@@ -24,7 +27,7 @@ public class PhotoGalleryFragment extends Fragment {
     public static final String TAG = "PhotoGalleryFragment";
 
     private RecyclerView mPhotoRecyclerView;
-    private List<GalleryItem> mItems = new ArrayList<>();
+    private BoxOfficeItemsResponse mItems = new BoxOfficeItemsResponse();
 
     public static PhotoGalleryFragment newInstance() {
         return new PhotoGalleryFragment();
@@ -73,9 +76,9 @@ public class PhotoGalleryFragment extends Fragment {
 
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
-        private List<GalleryItem> mGalleryItems;
+        private BoxOfficeItemsResponse mGalleryItems;
 
-        public PhotoAdapter(List<GalleryItem> galleryItems) {
+        public PhotoAdapter(BoxOfficeItemsResponse galleryItems) {
             mGalleryItems = galleryItems;
         }
 
@@ -87,25 +90,25 @@ public class PhotoGalleryFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(PhotoHolder photoHolder, int position) {
-            GalleryItem galleryItem = mGalleryItems.get(position);
+            GalleryItem galleryItem = mGalleryItems.getItems().get(position);
             photoHolder.bindGalleryItem(galleryItem);
         }
 
         @Override
         public int getItemCount() {
-            return mGalleryItems.size();
+            return mGalleryItems.getItems().size();
         }
     }
 
-    private class FetchItemsTask extends AsyncTask<Void, Void, List<GalleryItem>> {
+    private class FetchItemsTask extends AsyncTask<Void, Void, BoxOfficeItemsResponse> {
 
         @Override
-        protected List<GalleryItem> doInBackground(Void... params) {
+        protected BoxOfficeItemsResponse doInBackground(Void... params) {
             return new FlikrFetchr().fetchItems();
         }
 
         @Override
-        protected void onPostExecute(List<GalleryItem> items) {
+        protected void onPostExecute(BoxOfficeItemsResponse items) {
             mItems = items;
             setupAdapter();
         }
