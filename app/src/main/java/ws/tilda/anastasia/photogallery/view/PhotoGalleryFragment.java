@@ -73,6 +73,12 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mThumbnailDownloader.clearQueue();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mThumbnailDownloader.quit();
