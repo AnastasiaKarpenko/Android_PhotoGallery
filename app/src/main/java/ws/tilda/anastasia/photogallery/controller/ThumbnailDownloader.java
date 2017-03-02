@@ -19,7 +19,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
     private boolean mHasQuit = false;
     private Handler mRequestHandler;
     private ConcurrentMap<T, String> mRequestMap = new ConcurrentHashMap<>();
-    private Handler mResposeHandler;
+    private Handler mResponseHandler;
     private ThumbnailDownloadListener<T> mThumbnailDownloadListener;
 
 
@@ -36,7 +36,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
 
     public ThumbnailDownloader(Handler responseHandler) {
         super(TAG);
-        mResposeHandler = responseHandler;
+        mResponseHandler = responseHandler;
     }
 
     @Override
@@ -82,6 +82,16 @@ public class ThumbnailDownloader<T> extends HandlerThread {
             byte[] bitmapBytes = new FlikrFetchr().getUrlBytes(url);
             final Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
             Log.i(TAG, "Bitmap created");
+
+            mResponseHandler.post(new Runnable() {
+                public void run() {
+                        if (mRequestMap.get(target) != url ||
+                            mHasQuit) {
+                        return; }
+                    mRequestMap.remove(target);
+                    mThumbnailDownloadListener.onThumbnailDownloaded(target, bitmap);
+                }
+            });
         } catch (IOException ioe) {
             Log.e(TAG, "Error downloading image ", ioe);
         }
