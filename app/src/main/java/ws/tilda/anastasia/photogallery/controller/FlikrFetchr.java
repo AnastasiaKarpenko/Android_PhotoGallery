@@ -21,7 +21,7 @@ public class FlikrFetchr {
     private static final String TAG = "FlikrFetchr";
     private static final String API_KEY = "53a74153b3024ce6fbe41811e5d07686";
 
-    private byte[] getUrlBytes(String urlSpec) throws IOException {
+    public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         try {
